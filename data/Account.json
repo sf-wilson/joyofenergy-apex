@@ -1,0 +1,110 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef1"
+            },
+            "Name": "The Green Eco",
+            "Price_Plans__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "PricePlan__c",
+                            "referenceId": "PricePlan__cRef1"
+                        },
+                        "Rate__c": 1,
+                        "Contacts__r": {
+                            "records": [
+                                {
+                                    "attributes": {
+                                        "type": "Contact",
+                                        "referenceId": "ContactRef2"
+                                    },
+                                    "LastName": "Peter",
+                                    "MeterId__c": "smart-meter-1"
+                                },
+                                {
+                                    "attributes": {
+                                        "type": "Contact",
+                                        "referenceId": "ContactRef3"
+                                    },
+                                    "LastName": "Alex",
+                                    "MeterId__c": "smart-meter-4"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef3"
+            },
+            "Name": "Power for Everyone",
+            "Price_Plans__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "PricePlan__c",
+                            "referenceId": "PricePlan__cRef2"
+                        },
+                        "Rate__c": 2,
+                        "Contacts__r": {
+                            "records": [
+                                {
+                                    "attributes": {
+                                        "type": "Contact",
+                                        "referenceId": "ContactRef1"
+                                    },
+                                    "LastName": "Andrea",
+                                    "MeterId__c": "smart-meter-3"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef4"
+            },
+            "Name": "Dr Evil's Dark Energy",
+            "Price_Plans__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "PricePlan__c",
+                            "referenceId": "PricePlan__cRef3"
+                        },
+                        "Rate__c": 10,
+                        "Contacts__r": {
+                            "records": [
+                                {
+                                    "attributes": {
+                                        "type": "Contact",
+                                        "referenceId": "ContactRef4"
+                                    },
+                                    "LastName": "Sarah",
+                                    "MeterId__c": "smart-meter-0"
+                                },
+                                {
+                                    "attributes": {
+                                        "type": "Contact",
+                                        "referenceId": "ContactRef5"
+                                    },
+                                    "LastName": "Charlie",
+                                    "MeterId__c": "smart-meter-2"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
