@@ -13,6 +13,7 @@
                             "type": "PricePlan__c",
                             "referenceId": "PricePlan__cRef1"
                         },
+                        "Name": "price-plan-1",
                         "Rate__c": 1,
                         "Contacts__r": {
                             "records": [
@@ -51,6 +52,7 @@
                             "type": "PricePlan__c",
                             "referenceId": "PricePlan__cRef2"
                         },
+                        "Name": "price-plan-2",
                         "Rate__c": 2,
                         "Contacts__r": {
                             "records": [
@@ -81,6 +83,7 @@
                             "type": "PricePlan__c",
                             "referenceId": "PricePlan__cRef3"
                         },
+                        "Name": "price-plan-0",
                         "Rate__c": 10,
                         "Contacts__r": {
                             "records": [

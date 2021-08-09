@@ -10,8 +10,8 @@ public without sharing class UsageStub {
 
     @testVisible
     private static Integer timeElapsedInHours(Id clientId){
-        Reading__c firstReading = [select Id, ReadingTime__c from Reading__c order by ReadingTime__c limit 1];
-        Reading__c lastReading = [select Id, ReadingTime__c from Reading__c order by ReadingTime__c desc limit 1];
+        Reading__c firstReading = [select Id, ReadingTime__c from Reading__c where Client__c = :clientId order by ReadingTime__c limit 1];
+        Reading__c lastReading = [select Id, ReadingTime__c from Reading__c where Client__c = :clientId order by ReadingTime__c desc limit 1];
         Long firstReadingTime = firstReading.ReadingTime__c.getTime();
         Long lastReadingTime = lastReading.ReadingTime__c.getTime();
         return ((lastReadingTime - firstReadingTime) / 1000 / 3600).intValue();
