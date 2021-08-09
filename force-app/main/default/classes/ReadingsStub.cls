@@ -11,10 +11,11 @@ public without sharing class ReadingsStub {
         
         List<Reading__c> readings = new List<Reading__c>();
         Integer count = Math.round(Math.random() * 1000);
+        DateTime now = DateTime.now();
         for (Integer i = 0; i < count; i++) {
             Reading__c reading = new Reading__c();
             reading.Client__c = clientId;
-            reading.ReadingTime__c = DateTime.now().addHours(-1 * i);
+            reading.ReadingTime__c = now.addHours(-1 * i);
             reading.Value__c = Math.random() * 5;
             readings.add(reading);
         }
