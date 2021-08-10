@@ -31,15 +31,15 @@ public with sharing class UsageStubTest {
     // should average all readings for a client
     @isTest
     public static void testAverage(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         Decimal averageReadings = UsageStub.average(client.Id);
-        System.assertEquals(2, averageReadings);
+        System.assertEquals(3, averageReadings);
     }
 
     // should get time elapsed in hours for all readings for a client
     @isTest
     public static void testTimeElapsedInHours(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         Decimal hours = UsageStub.timeElapsedInHours(client.Id);
         System.assertEquals(4, hours);
     }
@@ -47,19 +47,19 @@ public with sharing class UsageStubTest {
     // should get usage for all readings for a client 
     @isTest
     public static void testUsage(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         Decimal usage = UsageStub.usage(client.Id);
-        System.assertEquals(0.5, usage);
+        System.assertEquals(0.75, usage);
     }
 
     // should get usage cost for all readings for all price plans
     @isTest
     public static void testAllPricePlans(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         List<PlanCost> plans = UsageStub.getUsageForAllPricePlans(client.Id);
         plans.sort();
-        System.assertEquals(0.5, plans[0].cost);
-        System.assertEquals(1, plans[1].cost);
-        System.assertEquals(5, plans[2].cost);
+        System.assertEquals(0.75, plans[0].cost);
+        System.assertEquals(1.5, plans[1].cost);
+        System.assertEquals(7.5, plans[2].cost);
     }
 }

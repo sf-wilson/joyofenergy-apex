@@ -22,7 +22,7 @@ public class PlansStubTest {
     // should compare usage cost for all price plans
     @isTest
     public static void testCompareAllPricePlans(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         List<PlanCost> results = PlansStub.compare(client.Id);
         System.assertEquals(3, results.size(), 'Unexpected plan cost quantity.');
     }
@@ -30,7 +30,7 @@ public class PlansStubTest {
     // should recommend usage cost for all price plans by ordering from cheapest to expensive
     @isTest
     public static void testRecommendPricePlans(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         List<PlanCost> results = PlansStub.recommend(client.Id, 3);
         System.assert(results[0].cost < results[1].cost);
         System.assert(results[1].cost < results[2].cost);
@@ -39,7 +39,7 @@ public class PlansStubTest {
     // should limit recommendation
     @isTest
     public static void testRecommendWithLimits(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         List<PlanCost> results = PlansStub.recommend(client.Id, 1);
         System.assertEquals(1, results.size(), 'Unexpected plan cost quantity.');
         results = PlansStub.recommend(client.Id, 5);

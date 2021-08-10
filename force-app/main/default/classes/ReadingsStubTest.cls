@@ -20,15 +20,28 @@ public with sharing class ReadingsStubTest {
     // should generate readings for a client.
     @isTest
     public static void testGenerateReadings(){
-        Contact client = [select Id from Contact limit 1];
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
         ReadingsStub.initReadings(client.Id);
-        System.assert([select count() from Reading__c] > 0, 'Incorrect readings quantity.');
+        System.assert([SELECT count() FROM Reading__c] > 0, 'Incorrect readings quantity.');
     }
 
     // should not generate readings without a client Id.
     @isTest
     public static void testGenerateReadingsWithoutClientId(){
         ReadingsStub.initReadings(null);
-        System.assert([select count() from Reading__c] == 0, 'Incorrect readings quantity.');
+        System.assert([SELECT count() FROM Reading__c] == 0, 'Incorrect readings quantity.');
+    }
+
+    // should not generate readings if there is already some readings under this client.
+    @isTest
+    public static void testGenerateReadingsWhenExistReadings(){
+        Contact client = [SELECT Id FROM Contact LIMIT 1];
+        Reading__c reading = new Reading__c(
+            Client__c = client.Id,
+            ReadingTime__c = DateTime.newInstance(2021, 8, 8, 6, 8, 26),
+            Value__c = 4.332);
+        insert reading;
+        ReadingsStub.initReadings(client.Id);
+        System.assert([SELECT count() FROM Reading__c] == 1, 'Incorrect readings quantity.');
     }
 }

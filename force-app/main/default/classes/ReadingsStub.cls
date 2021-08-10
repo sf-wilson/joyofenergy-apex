@@ -5,7 +5,7 @@ public without sharing class ReadingsStub {
             return;
         }
 
-        if ([select count() from Reading__c where Client__c = :clientId] > 0) {
+        if ([SELECT count() FROM Reading__c WHERE Client__c = :clientId] > 0) {
             return;
         }
         
