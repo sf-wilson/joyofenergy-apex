@@ -15,7 +15,7 @@ export default class FetchReadings extends LightningElement {
                 variant: 'success'
             });
             this.dispatchEvent(toast);
-            this.dispatchEvent(new CloseActionScreenEvent());
+            this.dispatchEvent(new CloseActionScreenEvent()); // used to close popup window automatically -> lightning-spinner
         }).catch(error => {
             console.log(error)
         });

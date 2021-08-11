@@ -14,7 +14,8 @@ public without sharing class UsageStub {
         Reading__c lastReading = [SELECT Id, ReadingTime__c FROM Reading__c WHERE Client__c = :clientId ORDER BY ReadingTime__c DESC LIMIT 1];
         Long firstReadingTime = firstReading.ReadingTime__c.getTime();
         Long lastReadingTime = lastReading.ReadingTime__c.getTime();
-        return ((lastReadingTime - firstReadingTime) / 1000 / 3600).intValue();
+        // return ((lastReadingTime - firstReadingTime) / 1000 / 3600).intValue();
+        return Integer.valueOf(((lastReadingTime - firstReadingTime) / 1000 / 3600));
     }
 
     @testVisible

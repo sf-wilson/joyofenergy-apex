@@ -5,6 +5,7 @@ public without sharing class ReadingsStub {
             return;
         }
 
+        // if there are reading records for the client, don't create additional reading records.
         if ([SELECT count() FROM Reading__c WHERE Client__c = :clientId] > 0) {
             return;
         }
