@@ -59,7 +59,8 @@ sfdx force:data:tree:import -f data/Account.json -u sp21
 # push code to dev
 git status # check changed files
 git add . # add all new or changed files
-git push origin dev
+git commit -m "your commit"
+git push -u origin dev
 ```
 
 ### Ref
