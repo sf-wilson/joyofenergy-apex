@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>*</members>
+		<members>ReadingsStub</members>
+		<members>ReadingsStubTest</members>
+		<members>PlanCost</members>
+		<members>UsageStub</members>
+		<members>UsageStubTest</members>
+		<members>PlansStub</members>
+		<members>PlansStubTest</members>
 		<name>ApexClass</name>
 	</types> 	
 	<types>
-		<members>*</members>
+		<members>fetchReadings</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
-		<members>*</members>
+		<members>Contact</members>
+		<members>PricePlan__c</members>
+		<members>Reading__c</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
-		<members>*</members>
+		<members>FetchMockData</members>
 		<name>QuickAction</name>
 	</types>
 	<!--
 	<types>
-		<members>*</members>
+		<members>JOI Energy</members>
 		<name>CustomApplication</name>
 	</types>
 	<types>
-		<members>*</members>
+		<members>Price Plans</members>
+		<members>Readings</members>
 		<name>CustomTab</name>
 	</types>
 	<types>

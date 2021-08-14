@@ -1,0 +1,68 @@
+<template>
+    <lightning-card title={title} icon-name="custom:custom64">
+        <lightning-button label="Refresh" onclick={handleRefresh} slot="actions" disabled={disableButton}></lightning-button>
+        <div class="slds-m-around_medium">
+            <!-- 1st solution -->
+            <!-- <template if:true={plans.data}>
+                <ul>
+                    <template for:each={plans.data} for:item="plan">
+                        <li key={plan.planId}>
+                            {plan.planName}, {plan.rate}, {plan.cost}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template if:true={plans.error}>
+                <div class="slds-text-color_error">
+                    An error occurred while loading the plans record: \n{plans.error}
+                </div>
+            </template> -->
+
+            <!-- 2nd solution -->
+            <!-- <template if:true={plans}>
+                <ul>
+                    <template for:each={plans} for:item="plan">
+                        <li key={plan.planId}>
+                            {plan.planName}, {plan.rate}, {plan.cost}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template if:true={error}>
+                <div class="slds-text-color_error">
+                    An error occurred while loading the plans record: \n{error}
+                </div>
+            </template> -->
+
+            <!-- 3rd solution -->
+            <!-- <p class="slds-m-bottom_small">
+                <lightning-button label="Load Plans" onclick={handleLoad}></lightning-button>
+            </p> -->
+            <template if:true={showTable}>
+                <!-- <ul>
+                    <template for:each={plans} for:item="plan">
+                        <li key={plan.planId}>
+                            <p><lightning-formatted-url value={plan.link} label={plan.planName} tooltip={plan.planName} target="_blank" ></lightning-formatted-url></p>
+                            <p><lightning-formatted-number value={plan.rate} ></lightning-formatted-number></p>
+                            <p><lightning-formatted-number value={plan.cost} maximum-fraction-digits="6"></lightning-formatted-number></p>
+                        </li>
+                    </template>
+                </ul> -->
+                <!-- resize-column-disabled -->
+                <lightning-datatable
+                    key-field="id"
+                    data={plans}
+                    show-row-number-column
+                    hide-checkbox-column
+                    columns={cols}
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+            <template if:true={error}>
+                <div class="slds-text-color_error">
+                    An error occurred while loading the plans record: \n{error}
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

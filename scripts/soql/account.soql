@@ -1,6 +1,5 @@
-// Use .soql files to store SOQL queries.
-// You can execute queries in VS Code by selecting the
-//     query text and running the command:
-//     SFDX: Execute SOQL Query with Currently Selected Text
+// fetch reading records
+select id,Client__r.name,Name, format(ReadingTime__c), Value__c from Reading__c order by ReadingTime__c desc
 
-SELECT Id, Name FROM Account
+// get average reading val of the specific client
+SELECT AVG(Value__c) aver FROM Reading__c WHERE Client__c = '003B000000IuZDqIAN'

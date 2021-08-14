@@ -47,6 +47,9 @@ git branch
 ```
 select id,Client__r.name,Name, format(ReadingTime__c), Value__c from Reading__c order by ReadingTime__c desc
 ```
+6. adjust test code to solve the assert errors in `UsageStubTest`
+7. develop recommendPlans lwc & also need to add @AuraEnabled for property & method
+8. add the component to contact record page
 
 ### Common CLI
 ```
@@ -68,6 +71,10 @@ git push -u origin dev
 2. [Comparable Interface](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_comparable.htm)
 3. [Use Lightning Web Components for Quick Action](https://newstechnologystuff.com/2021/06/14/use-lightning-web-components-for-quick-action/)
 4. [Create Screen Quick Actions](https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.use_quick_actions_screen)
+5. [Call Apex method from Lightning Web Components](https://www.apexhours.com/call-apex-method-from-lightning-web-components/)
 
 ### ToDo
 1. trial the ref1, 3
+
+#### Implementing Comparable
+Apex will not let you use the built in sort method for List to sort sObjects by a field inside. To do this, we have to implement our own comparable class to do the sorting for us.
