@@ -9,39 +9,45 @@
 		<members>PlansStub</members>
 		<members>PlansStubTest</members>
 		<name>ApexClass</name>
-	</types> 	
+	</types> 
 	<types>
-		<members>fetchReadings</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>Contact</members>
 		<members>PricePlan__c</members>
 		<members>Reading__c</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
-		<members>FetchMockData</members>
-		<name>QuickAction</name>
-	</types>
-	<!--
-	<types>
-		<members>JOI Energy</members>
-		<name>CustomApplication</name>
+		<members>Contact.MeterId__c</members>
+		<members>Contact.PricePlan__c</members>
+		<name>CustomField</name>
 	</types>
 	<types>
-		<members>Price Plans</members>
-		<members>Readings</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>*</members>
+		<members>Account-Account Layout</members>
+		<members>Contact-Contact Layout</members>
+		<members>PricePlan__c-Price Plan Layout</members>
+		<members>Reading__c-Reading Layout</members>
 		<name>Layout</name>
 	</types>
 	<types>
-		<members>*</members>
+		<members>PricePlan__c</members>
+		<members>Reading__c</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>JOI_Energy</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>FetchMockData</members>
+		<name>QuickAction</name>
+	</types>	
+	<types>
+		<members>fetchReadings</members>
+        <members>recommendPlans</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>Admin</members>
 		<name>Profile</name>
 	</types>
-	-->
 	<version>51.0</version>
 </Package>
