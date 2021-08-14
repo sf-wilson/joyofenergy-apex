@@ -15,5 +15,5 @@
     <tabs>standard-Contact</tabs>
     <tabs>Reading__c</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>JOI_Energy_UtilityBar</utilityBar>
+    <!-- <utilityBar>JOI_Energy_UtilityBar</utilityBar> -->
 </CustomApplication>
