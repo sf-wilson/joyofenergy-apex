@@ -92,6 +92,10 @@ git push -u origin dev
 2. edit / delete reading
 	- refresh recommend data 
 
+### Login Credentials
+test-vfozvxyjn7rb@example.com
+admin1234
+
 ### Misc.
 ```
 communicate data across components:
