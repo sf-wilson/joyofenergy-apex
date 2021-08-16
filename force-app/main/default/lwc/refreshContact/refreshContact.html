@@ -1,0 +1,12 @@
+<template>
+	<lightning-card title="Current Contact" icon-name="standard:contact">
+        <lightning-button slot="actions" label="Refresh" onclick={refreshContact}>
+        </lightning-button>
+        <div class="slds-m-around_medium">
+            <p>FirstName: {fname}</p>
+            <p>LastName: {lname}</p>
+            <!-- LastName undefined -->
+            <!-- <p>Contact Info: {contact.LastName}</p> -->
+        </div>
+    </lightning-card>
+</template>

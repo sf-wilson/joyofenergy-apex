@@ -10,8 +10,18 @@ public without sharing class ReadingsStub {
             return;
         }
         
+        String nowStr = String.valueOf(System.now());
+
+        update new Contact(
+            Id = clientId,
+            FirstName = nowStr
+        );
+
+        System.debug('nowStr: ' + nowStr);
+        
         List<Reading__c> readings = new List<Reading__c>();
         Integer count = Math.round(Math.random() * 1000);
+
         DateTime now = DateTime.now();
         for (Integer i = 0; i < count; i++) {
             Reading__c reading = new Reading__c();

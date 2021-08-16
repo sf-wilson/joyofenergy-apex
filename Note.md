@@ -85,5 +85,36 @@ git push -u origin dev
 2. optimize data import -> just like dreamhouse
 3. optimize fetchreading records - refresh to display the reading records after clicing the quick action button
 
+### Bug
+1. click quick action
+	insert reading
+	-> refresh recommend data
+2. edit / delete reading
+	- refresh recommend data 
+
+### Misc.
+```
+communicate data across components:
+1. components with hierarchy -> custom event
+	ref: https://salesforcediaries.com/2019/12/10/send-multiple-parameters-in-lwc-events-via-detial-property/
+2. components without hierarchy -> Pub-Sub Model
+	ref: https://www.sfdcpanther.com/pub-sub-in-lightning-web-component/
+3. platform event
+	ref: https://inevitableyogendra.blogspot.com/p/how-to-refesh-lightning-datatable-after.html
+
+
+Lightning message service vs platform events vs pubsub
+
+As of July 2020, c/pubsub has been superseded by the Lightning Message Service.
+
+
+1. apexrefresh with wire
+2. optimize the import data process, and if partial success, how it does.
+
+readingListUpdate
+
+disconnectCallback vs disconnectedCallback1
+```
+
 #### Implementing Comparable
 Apex will not let you use the built in sort method for List to sort sObjects by a field inside. To do this, we have to implement our own comparable class to do the sorting for us.

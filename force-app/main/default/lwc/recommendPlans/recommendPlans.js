@@ -1,6 +1,11 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getRecommendPlans from '@salesforce/apex/PlansStub.recommend'
 
+import { registerListener, unregisterAllListeners} from 'c/pubsub';
+import { CurrentPageReference } from 'lightning/navigation';
+
+// import pubsub from 'c/pubsub';
+
 const columns = [
     {label: 'Plan Name', fieldName: 'link', wrapText: true, hideDefaultActions: true, type: 'url', typeAttributes: {
         label: {fieldName: 'planName'}, 
@@ -17,7 +22,7 @@ export default class RecommendPlans extends LightningElement {
     @api recordId;
     @api limits;
 
-    @track title = 'Recommend Plans';
+    @track title = 'Recommended Plans';
     @track disableButton = false;
     @track showTable = true;
 
@@ -68,23 +73,34 @@ export default class RecommendPlans extends LightningElement {
     @track error;
 
     cols = columns;
-
-    connectedCallback(){
+    
+    @wire(CurrentPageReference) pageRef;
+    @track Message;
+    connectedCallback() {
+        registerListener('refreshView', this.handleMessage, this);
         this.handleRefresh();
+    }
+   
+    handleMessage(myMessage) {
+        this.Message = myMessage;
+        console.log('[recommended plans]msg: ' + this.Message);
+        // Add your code here
+        this.handleRefresh();
+    }
+   
+    disconnectedCallback() {
+        unregisterAllListeners(this);
     }
 
     handleRefresh() {
-        console.log(this.recordId);
-        console.log(this.limits);
+        console.log('recordId: ' + this.recordId);
+        console.log('limits: ' + this.limits);
 
         getRecommendPlans({
             clientId: this.recordId,
             limits: this.limits
         })
         .then(result => {
-            console.log('result=>' + JSON.stringify(result));
-            console.log('size=>' + result.length);
-
             let tempList = []; 
             result.forEach((record) => {
                 let row = Object.assign({}, record);  
@@ -92,17 +108,17 @@ export default class RecommendPlans extends LightningElement {
                 tempList.push(row);
             });
             
+            this.title = `Recommended Plans (${tempList.length})`;
+            this.showTable = tempList.length > 0;
             this.plans = tempList;
             this.error = undefined;
-            this.title = 'Recommend Plans ('+ result.length +')';
-            this.showTable = this.plans.length > 0;
             console.log('plans=>' + JSON.stringify(this.plans));
         })
         .catch(error => {
-            this.plans = undefined;
-            this.error = error;
             this.disableButton = true;
             this.showTable = false;
+            this.plans = undefined;
+            this.error = error;
         });
     }
 
