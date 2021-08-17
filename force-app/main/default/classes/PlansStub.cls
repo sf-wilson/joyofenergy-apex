@@ -15,7 +15,7 @@ public without sharing class PlansStub {
         return results;
     }
 
-    public static List<PlanCost> compare(Id clientId) {
-        return UsageStub.getUsageForAllPricePlans(clientId);
-    }
+    // public static List<PlanCost> compare(Id clientId) {
+    //     return UsageStub.getUsageForAllPricePlans(clientId);
+    // }
 }

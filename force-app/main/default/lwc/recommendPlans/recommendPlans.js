@@ -25,13 +25,11 @@ export default class RecommendPlans extends LightningElement {
 
     @track plans;
     @track error;
-
     @track title = 'Recommended Plans';
     @track disableButton = false;
     @track showTable = true;
 
     cols = columns;
-
     wiredPlansResult;
 
     @wire(getRecommendPlans, {
@@ -65,7 +63,7 @@ export default class RecommendPlans extends LightningElement {
 
     refreshPlans() {
         console.log('call refresh on plans...');
-        return refreshApex(this.wiredPlansResult);
+        refreshApex(this.wiredPlansResult);
     }
 
     @track messageBody = '';
@@ -73,7 +71,7 @@ export default class RecommendPlans extends LightningElement {
     subscription = {};
 
     connectedCallback() {
-        // this.handleRefresh();
+        // refresh component after page loaded
         this.refreshPlans();
         // Register listener
         this.handleSubscribe();
@@ -88,8 +86,11 @@ export default class RecommendPlans extends LightningElement {
     // Handles subscribe button click
     handleSubscribe() {
         const thisReference = this;
-        // Callback invoked whenever a new event message is received
-        const messageCallback = function (response) {
+        /**
+         * Description: Callback invoked whenever a new event message is received
+         * Note: you must change `messageCallback = function (response) {}` to `messageCallback = (response) => {}`, otherwise, refreshPlans function won't take any effect.
+         */
+        const messageCallback = (response) => {
             const subEvt = response.data.payload.sObject__c;
             const msg = response.data.payload.Message__c;
             thisReference.messageBody = '[' + subEvt + '] - ' + msg;
@@ -97,8 +98,9 @@ export default class RecommendPlans extends LightningElement {
             // Response contains the payload of the new message received
 
             if ('Reading__c' == subEvt && 'refreshView' == msg) {
-                console.log('start to refresh custom component...');
-                refreshApex(this.wiredPlansResult);
+                console.log('start to refresh component...');
+                this.refreshPlans();
+                console.log('end to refresh component...');
             }
         };
 
@@ -130,51 +132,7 @@ export default class RecommendPlans extends LightningElement {
         });
     }
 
-    // handleRefresh() {
-    //     console.log(this.recordId);
-    //     console.log(this.limits);
-
-    //     getRecommendPlans({
-    //         clientId: this.recordId,
-    //         limits: this.limits
-    //     })
-    //     .then(result => {
-    //         console.log('result=>' + JSON.stringify(result));
-    //         console.log('size=>' + result.length);
-
-    //         let tempList = [];
-    //         result.forEach((record) => {
-    //             let row = Object.assign({}, record);
-    //             row.link = '/' + row.planId;
-    //             tempList.push(row);
-    //         });
-
-    //         this.plans = tempList;
-    //         this.error = undefined;
-    //         this.title = 'Recommended Plans (' + result.length + ')';
-    //         this.showTable = this.plans.length > 0;
-    //         console.log('plans=>' + JSON.stringify(this.plans));
-    //     })
-    //     .catch(error => {
-    //         this.plans = undefined;
-    //         this.error = error;
-    //         this.disableButton = true;
-    //         this.showTable = false;
-    //     });
-    // }
-
     handleRowAction() {
 
     }
-
-    /*  
-        Ref: https://www.apexhours.com/call-apex-method-from-lightning-web-components/
-        Here is some consideration:
-            First, import the Apex method into the JS
-            If it is wired, make sure cacheable=trued ecorator is set
-            Parameters are passed as an object
-            For simple results: wire to a property
-            For some processing: wire to a function
-            For controlling when to call: imperative
-    */
 }
