@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>ReadingsStub</members>
-		<members>ReadingsStubTest</members>
 		<members>PlanCost</members>
-		<members>UsageStub</members>
-		<members>UsageStubTest</members>
 		<members>PlansStub</members>
 		<members>PlansStubTest</members>
+		<members>ReadingsStub</members>
+		<members>ReadingsStubTest</members>
+		<members>UsageStub</members>
+		<members>UsageStubTest</members>
 		<name>ApexClass</name>
-	</types> 
+	</types>
 	<types>
-		<members>PricePlan__c</members>
-		<members>Reading__c</members>
-		<name>CustomObject</name>
+		<members>ReadingTrigger</members>
+		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>JOI_Energy</members>
+		<name>CustomApplication</name>
 	</types>
 	<types>
 		<members>Contact.MeterId__c</members>
 		<members>Contact.PricePlan__c</members>
 		<name>CustomField</name>
+	</types>
+	<types>
+		<members>CustomEvent__e</members>
+		<members>PricePlan__c</members>
+		<members>Reading__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>PricePlan__c</members>
+		<members>Reading__c</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>Contact_Record_Page</members>
+		<name>FlexiPage</name>
 	</types>
 	<types>
 		<members>Account-Account Layout</members>
@@ -28,26 +46,17 @@
 		<name>Layout</name>
 	</types>
 	<types>
-		<members>PricePlan__c</members>
-		<members>Reading__c</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>JOI_Energy</members>
-		<name>CustomApplication</name>
-	</types>
-	<types>
-		<members>FetchMockData</members>
-		<name>QuickAction</name>
-	</types>	
-	<types>
 		<members>fetchReadings</members>
-        <members>recommendPlans</members>
+		<members>recommendPlans</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
 		<members>Admin</members>
 		<name>Profile</name>
+	</types>
+	<types>
+		<members>FetchMockData</members>
+		<name>QuickAction</name>
 	</types>
 	<version>51.0</version>
 </Package>

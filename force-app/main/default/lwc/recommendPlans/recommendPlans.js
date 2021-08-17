@@ -1,113 +1,170 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getRecommendPlans from '@salesforce/apex/PlansStub.recommend'
+import { subscribe, unsubscribe, onError, setDebugFlag, isEmpEnabled } from 'lightning/empApi'
+import { refreshApex } from '@salesforce/apex';
 
 const columns = [
-    {label: 'Plan Name', fieldName: 'link', wrapText: true, hideDefaultActions: true, type: 'url', typeAttributes: {
-        label: {fieldName: 'planName'}, 
-        tooltip: {fieldName: 'planName'},
-        target: '_blank'
-    }},
-    {label: 'Rate', fieldName: 'rate', hideDefaultActions: true},
-    {label: 'Cost', fieldName: 'cost', hideDefaultActions: true, cellAttributes: { alignment: 'left' }, type: 'number', typeAttributes: {
-        maximumFractionDigits: 6 // defualt is 37 digits, i.e. 0.0680752568212718071625344352617080000
-    }}
+    {
+        label: 'Plan Name', fieldName: 'link', wrapText: true, hideDefaultActions: true, type: 'url', typeAttributes: {
+            label: { fieldName: 'planName' },
+            tooltip: { fieldName: 'planName' },
+            target: '_blank'
+        }
+    },
+    { label: 'Rate', fieldName: 'rate', hideDefaultActions: true },
+    {
+        label: 'Cost', fieldName: 'cost', hideDefaultActions: true, cellAttributes: { alignment: 'left' }, type: 'number', typeAttributes: {
+            maximumFractionDigits: 6 // defualt is 37 digits, i.e. 0.0680752568212718071625344352617080000
+        }
+    }
 ];
 
 export default class RecommendPlans extends LightningElement {
     @api recordId;
     @api limits;
 
-    @track title = 'Recommend Plans';
-    @track disableButton = false;
-    @track showTable = true;
-
-    /*
-        1st solution: Wire an Apex method as property
-        Tips: 
-            1. First we need to create one apex class with @AuraEnabled(cacheable=true), and also specify @AuraEnabled for variable name if needed.
-            2. During passing of the parameters, we need to put '$' sign before the property.
-            3. Then we can get the data using {plans.data} & error using {plans.error} in html file.
-    */
-    // @wire (getRecommendPlans, {
-    //     clientId: '$recordId',
-    //     limits: '$limits'
-    // }) 
-    // plans;
-
-    /*
-        2nd solution: Wire an Apex Method as function
-        Tips: 
-            1. The same as #1 in 1st solution.
-            2. The same as #2 in 1st solution.
-            3. Defined two private reactive properties such as plans and error.
-            4. Then we need to set these two properties into the wired function named wiredPlans.
-    */
-    // @track plans;
-    // @track error;
-
-    // @wire (getRecommendPlans, {
-    //     clientId: '$recordId',
-    //     limits: '$limits'
-    // })
-	// wiredPlans({data, error}){
-	// 	if(data) {
-	// 		this.plans =data;
-	// 		this.error = undefined;
-	// 	}else {
-	// 		this.plans =undefined;
-	// 		this.error = error;
-	// 	}
-	// }
-
-    /*
-        3rd solution: Call an apex method imperatively
-        Tips:
-            1. For imperative method we dont need to mark the apex method as cacheabe=true.
-    */
     @track plans;
     @track error;
 
+    @track title = 'Recommended Plans';
+    @track disableButton = false;
+    @track showTable = true;
+
     cols = columns;
 
-    connectedCallback(){
-        this.handleRefresh();
-    }
+    wiredPlansResult;
 
-    handleRefresh() {
-        console.log(this.recordId);
-        console.log(this.limits);
-
-        getRecommendPlans({
-            clientId: this.recordId,
-            limits: this.limits
-        })
-        .then(result => {
-            console.log('result=>' + JSON.stringify(result));
-            console.log('size=>' + result.length);
-
-            let tempList = []; 
-            result.forEach((record) => {
-                let row = Object.assign({}, record);  
+    @wire(getRecommendPlans, {
+        clientId: '$recordId',
+        limits: '$limits'
+    })
+    wirePlanData(result) {
+        this.wiredPlansResult = result; // track the provisioned value
+        const { data, error } = result; // destructure it for convenience
+        if (data) { 
+            let tempList = [];
+            data.forEach((record) => {
+                let row = Object.assign({}, record);
                 row.link = '/' + row.planId;
                 tempList.push(row);
             });
-            
+
             this.plans = tempList;
             this.error = undefined;
-            this.title = 'Recommend Plans ('+ result.length +')';
+            this.title = 'Recommended Plans (' + this.plans.length + ')';
             this.showTable = this.plans.length > 0;
             console.log('plans=>' + JSON.stringify(this.plans));
-        })
-        .catch(error => {
+        }else if (error) { 
             this.plans = undefined;
-            this.error = error;
+            this.error = JSON.stringify(error);
             this.disableButton = true;
             this.showTable = false;
+            console.log('error=>' + JSON.stringify(error));
+        }
+    }
+
+    refreshPlans() {
+        console.log('call refresh on plans...');
+        return refreshApex(this.wiredPlansResult);
+    }
+
+    @track messageBody = '';
+    CHANNEL_NAME = '/event/CustomEvent__e';
+    subscription = {};
+
+    connectedCallback() {
+        // this.handleRefresh();
+        this.refreshPlans();
+        // Register listener
+        this.handleSubscribe();
+        // Register error listener     
+        this.registerErrorListener();
+    }
+
+    disconnectedCallback() {
+        this.handleUnsubscribe();
+    }
+
+    // Handles subscribe button click
+    handleSubscribe() {
+        const thisReference = this;
+        // Callback invoked whenever a new event message is received
+        const messageCallback = function (response) {
+            const subEvt = response.data.payload.sObject__c;
+            const msg = response.data.payload.Message__c;
+            thisReference.messageBody = '[' + subEvt + '] - ' + msg;
+            console.log("###New message received ", thisReference.messageBody);
+            // Response contains the payload of the new message received
+
+            if ('Reading__c' == subEvt && 'refreshView' == msg) {
+                console.log('start to refresh custom component...');
+                refreshApex(this.wiredPlansResult);
+            }
+        };
+
+        // Invoke subscribe method of empApi. Pass reference to messageCallback
+        subscribe(this.CHANNEL_NAME, -1, messageCallback).then((response) => {
+            // Response contains the subscription information on subscribe call
+            console.log(
+                "Subscription request sent to: ",
+                JSON.stringify(response.channel)
+            );
+            this.subscription = response;
         });
     }
 
-    handleRowAction(){
-        
+    // Handles unsubscribe button click
+    handleUnsubscribe() {
+        // Invoke unsubscribe method of empApi
+        unsubscribe(this.subscription, (response) => {
+            console.log("unsubscribe() response: ", JSON.stringify(response));
+            // Response is true for successful unsubscribe
+        });
+    }
+
+    registerErrorListener() {
+        // Invoke onError empApi method
+        onError((error) => {
+            console.log("Received error from server: ", JSON.stringify(error));
+            // Error contains the server-side error
+        });
+    }
+
+    // handleRefresh() {
+    //     console.log(this.recordId);
+    //     console.log(this.limits);
+
+    //     getRecommendPlans({
+    //         clientId: this.recordId,
+    //         limits: this.limits
+    //     })
+    //     .then(result => {
+    //         console.log('result=>' + JSON.stringify(result));
+    //         console.log('size=>' + result.length);
+
+    //         let tempList = [];
+    //         result.forEach((record) => {
+    //             let row = Object.assign({}, record);
+    //             row.link = '/' + row.planId;
+    //             tempList.push(row);
+    //         });
+
+    //         this.plans = tempList;
+    //         this.error = undefined;
+    //         this.title = 'Recommended Plans (' + result.length + ')';
+    //         this.showTable = this.plans.length > 0;
+    //         console.log('plans=>' + JSON.stringify(this.plans));
+    //     })
+    //     .catch(error => {
+    //         this.plans = undefined;
+    //         this.error = error;
+    //         this.disableButton = true;
+    //         this.showTable = false;
+    //     });
+    // }
+
+    handleRowAction() {
+
     }
 
     /*  

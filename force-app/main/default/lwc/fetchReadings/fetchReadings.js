@@ -16,6 +16,9 @@ export default class FetchReadings extends LightningElement {
             });
             this.dispatchEvent(toast);
             this.dispatchEvent(new CloseActionScreenEvent()); // used to close popup window automatically -> lightning-spinner
+
+            // Only update standard contact page including detail & related list.
+            eval("$A.get('e.force:refreshView').fire();");
         }).catch(error => {
             console.log(error)
         });

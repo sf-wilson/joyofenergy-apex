@@ -1,6 +1,5 @@
 public without sharing class PlansStub {
-    // @AuraEnabled(cacheable=true)
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<PlanCost> recommend(Id clientId, Integer limits) {
         // To solve: List has no rows for assignment to SObject in UsageStub.timeElapsedInHours
         List<PlanCost> results = new List<PlanCost>();
