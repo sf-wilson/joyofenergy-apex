@@ -3,5 +3,6 @@
     <deploymentStatus>Deployed</deploymentStatus>
     <eventType>HighVolume</eventType>
     <label>CustomEvent</label>
+    <pluralLabel>CustomEvents</pluralLabel>
     <publishBehavior>PublishAfterCommit</publishBehavior>
 </CustomObject>
